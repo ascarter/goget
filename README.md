@@ -17,3 +17,12 @@ Flags:
 # Vendoring
 
 Vendoring is the practice of copying third party dependencies directly into the project. Go 1.5 or later supports a `vendor/` directory with a layout identical to a Go workspace `src/` directory.
+
+# Example
+
+		$ cd ~/Projects/goworkspace
+		$ export GOPATH=~/Projects/goworkspace
+		$ mkdir src/github.com/<user>/<myproject>
+		$ cd src/github.com/<user>/<myproject>
+		$ touch main.go
+		$ goget -v github.com/<user>/<dependency>
