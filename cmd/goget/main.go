@@ -4,6 +4,9 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"os/exec"
+
+	"github.com/ascarter/goget"
 )
 
 var (
@@ -43,5 +46,22 @@ Flags:
 func main() {
 	flag.Usage = usage
 	flag.Parse()
-	fmt.Println("This is goget")
+
+	errExit := func(err error) {
+		fmt.Fprintln(os.Stderr, err)
+		os.Exit(1)
+	}
+
+	if *vendor {
+		if err := goget.Vendor(flag.Args()); err != nil {
+			errExit(err)
+		}
+	} else {
+		// Pass through to go get
+		cmd := exec.Command("go", "get")
+		cmd.Args = append(cmd.Args, os.Args[1:]...)
+		if err := cmd.Run(); err != nil {
+			errExit(err)
+		}
+	}
 }
